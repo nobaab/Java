@@ -1,59 +1,54 @@
 public class MergeSort {
 
-	public void Merge(int[] arr, int left, int mid, int right)
-    {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
-        int[] L = new int[n1 + 1];
-        int[] R = new int[n2 + 1];
-        int i, j;
-        for (i = 0; i < n1; i++)
-        {
-            L[i] = arr[left + i];
+	public static void printArray(int a[]) {
+        for (int i = 0; i < a.length; i++) {
+            System.out.print(a[i]+" ");
         }
-        for(j = 0; j < n2; j++)
-        {
-            R[j] = arr[mid+1 + j];
+        System.out.println("");
+    }
+
+    public static void merge(int a[],int p ,int q,int r) {
+        int n1=  q-p+1;
+        int n2= r-q;
+        int  left[] = new int[n1+1];
+        int  right[] = new int[n2+1];
+        for (int i = 0; i < n1; i++) {
+            left[i] = a[p+i];
         }
-        L[i] = R[j] = Integer.MAX_VALUE;
-        for(int l = 0, r = 0, k = left; k <= right; k++)
-        {
-            if(L[l] <= R[r])
-            {
-                arr[k] = L[l];
-                l++;
-            }
-            else
-            {
-                arr[k] = R[r];
-                r++;
+        left[left.length-1] = Integer.MAX_VALUE;
+        for (int i = 0; i < n2; i++) {
+            right[i] = a[q+1+i];
+        }
+        right[right.length-1] =  Integer.MAX_VALUE;
+
+        int i=0,j=0;
+        for(int k=p;k<=r;k++){
+            if(left[i]<right[j]){
+                a[k] =left[i];
+                i++;
+            }else{
+                a[k] =right[j];
+                j++;
             }
         }
     }
 
-    public void MergeSortMethod(int[] arr, int left, int right)
-    {
-        if(left < right)
-        {
-            int mid = left + (right - left) / 2;
-            MergeSortMethod(arr, left, mid);
-            MergeSortMethod(arr, mid + 1, right);
-            Merge(arr, left, mid, right);
+    public static void mergeSort(int a[],int p, int r){
+        if (p<r){
+            int q= (p+r)/2;
+            mergeSort(a, p, q);
+            mergeSort(a, q+1, r);
+            merge(a, p, q, r);
         }
-
     }
 
-    public static void main(String[] args)
-    {
-        MergeSort ms = new MergeSort();
-        int[] arr = {2, 4, 1, 6, 8, 5, 3, 7};
-        ms.MergeSortMethod(arr, 0, arr.length-1);
-
-        for(int i : arr)
-        {
-            System.out.print(i + " ");
-        }
-        System.out.println();
+    public static void main(String[] args) {
+        int a[] ={1,5,3,7,2,6,4,8};
+        System.out.println("Unsorted Array is :");
+        printArray(a);
+        System.out.println("sorted Array is :");
+        mergeSort(a, 0, a.length-1);
+        printArray(a);
     }
 
 }
